@@ -3,52 +3,59 @@ import os
 import marvmiloTools as mmt
 
 #import other scripts
-import pixicam
+import cam
 import robot
-import UI
-scripts = [pixicam, robot, UI]
+import GUI
+scripts = [cam, robot, GUI]
 
 #global values variable
 values = mmt.dictionary.toObj(
     {
-        "storage": 200,
-        "containters": [
-            0,
-            0,
-            0,
-            0
-        ],
-        "color": {
-            "current": None,
-            "next": None,
+        "status": False,
+        "marbel": {
+            "color": None,
+            "x": 0,
+            "y": 0
+        },
+        "colors": {
             "red": {
                 "container": None,
-                "total": 50
+                "sorted": 0
             },
             "green": {
                 "container": None,
-                "total": 50
-            },
-            "blue": {
-                "container": None,
-                "total": 50
+                "sorted": 0
             },
             "yellow": {
                 "container": None,
-                "total": 50
+                "sorted": 0
             }
+        },
+        "total": {
+            "marbels": 30,
+            "sorted": 0,
+            "seconds": 0.0,
+            "precentage": 0.0
         }
     }
 )
 
+#prepare global sql function
+sql_manager = mmt.SQL()
+sql_manager.connect("database.db")
+def sql(command):
+    sql_manager.execute(command)
+
 #running scripts
 for s in scripts:
-    thread = s.Thread(values)
+    thread = s.Thread(values, sql)
     thread.start()
 
 #main loop
 try:
     while True:
         time.sleep(1)
+                
 except KeyboardInterrupt:
+    sql_manager.disconnect()
     os._exit(0)

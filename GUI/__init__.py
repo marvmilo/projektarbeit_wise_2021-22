@@ -1,14 +1,14 @@
 import threading
 
 #main function of script
-def Main(values):
-    print("this is UI Script")
-    values.storage = 150
+def Main(values, sql):
+    print("this is GUI Script")
 
 #main thread of script
 class Thread(threading.Thread):
-    def __init__(self, values):
+    def __init__(self, values, sql):
         threading.Thread.__init__(self)
         self.values = values
+        self.sql = sql
     def run(self):
-        Main(self.values)
+        Main(self.values, self.sql)
