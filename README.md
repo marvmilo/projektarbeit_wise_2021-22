@@ -26,5 +26,3 @@ Kuka Murmel sotier Roboter.
 - Vor dem ersten push: ```git config --global credential.helper store```
 - Danach push ausführen, Username und Access Token eingeben: ```git push origin main```
 - Änderungen können dann ohne Credentials gepushed werden
-
-
