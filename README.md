@@ -13,7 +13,6 @@ Kuka Murmel sotier Roboter.
 1. ```git remote add origin https://github.com/marvmilo/projektarbeit_wise_2021-22```
 1. ```git pull origin main```
 1. Branch setzen: ```git checkout -b main```
-1. Username und Email ändern: ```git config --global --edit```
 
 ## Updaten des Repositories
 1. Update lokales Repository: ```git pull origin main```
