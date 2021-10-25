@@ -25,6 +25,6 @@ Kuka Murmel sotier Roboter.
 - Änderungen können dann ohne Credentials gepushed werden
 # Tools:
 ### IP von RevPi in Netzwerk finden:
-- ```nmap -sn -T5 192.168.1.0/24 | grep -A1 "(Kunbus Gmbh)"```
+- ```nmap -sn -T5 192.168.1.0/24 | grep -B2 Kunbus```
 ### Flash RevPi:
 - https://revolutionpi.de/tutorials/images/jessie-aufspielen/
