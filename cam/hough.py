@@ -16,7 +16,6 @@ def transformation(filename):
     circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1, rows / 8,
                                param1=100, param2=30,
                                minRadius=1, maxRadius=30)
-    
     return circles
 
 #get cordinates from circles
