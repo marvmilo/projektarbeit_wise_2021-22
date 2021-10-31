@@ -1,5 +1,5 @@
 # Projektarbeit Wintersemester 2021/22
-Kuka Murmel sotier Roboter.
+Kuka Murmel Sotieroboter.
 # Aufbau:
 ![Database](./pictures/aufbau.jpg)
 # Github Usage:
