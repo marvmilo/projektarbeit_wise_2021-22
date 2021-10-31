@@ -35,3 +35,8 @@ static ip_address=192.168.0.4/24
 - ```sudo reboot now```
 ### Flash RevPi:
 - https://revolutionpi.de/tutorials/images/jessie-aufspielen/
+- ToDos:
+1. Tastatur Deutsch
+2. Static IP
+3. Storage
+4. init Git Workspace
