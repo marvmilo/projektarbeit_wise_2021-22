@@ -26,5 +26,12 @@ Kuka Murmel sotier Roboter.
 # Tools:
 ### IP von RevPi in Netzwerk finden:
 - ```nmap -sn -T5 192.168.1.0/24 | grep -B2 Kunbus```
+### Static IP setzen:
+- ```sudo nano /etc/dhcpcd.conf```
+```
+interface eth0
+static ip_address=192.168.0.4/24
+```
+- ```sudo reboot now```
 ### Flash RevPi:
 - https://revolutionpi.de/tutorials/images/jessie-aufspielen/
