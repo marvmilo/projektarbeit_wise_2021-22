@@ -1,0 +1,28 @@
+{
+    "status": false,
+    "marbel": {
+        "color": null,
+        "x": 0,
+        "y": 0
+    },
+    "colors": {
+        "red": {
+            "container": null,
+            "sorted": 0
+        },
+        "green": {
+            "container": null,
+            "sorted": 0
+        },
+        "yellow": {
+            "container": null,
+            "sorted": 0
+        }
+    },
+    "total": {
+        "marbels": 30,
+        "sorted": 0,
+        "seconds": 0.0,
+        "precentage": 0.0
+    }
+}

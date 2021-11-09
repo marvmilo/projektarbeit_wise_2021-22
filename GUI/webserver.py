@@ -35,6 +35,3 @@ def init_callbacks(values, sql):
 #run web application
 def run(debug = False):
     app.run_server(debug = debug)
-
-if __name__ == '__main__':
-    app.run_server(debug = True)

@@ -28,7 +28,7 @@ Start Code in CWD:
 - ```python3 .```
 - ```python3 __main__.py```
 ### Debug Modes:
-- **GUI:** ```python3 __main__.py --debugUI```
+- **GUI:** ```python3 ./GUI_debugger.py```
 # Tools:
 ### IP von RevPi in Netzwerk finden:
 - ```nmap -sn -T5 192.168.1.0/24 | grep -B2 Kunbus```
