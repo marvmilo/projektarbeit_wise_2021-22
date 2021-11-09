@@ -45,7 +45,7 @@ values = mmt.dictionary.toObj(
 sql_manager = mmt.SQL()
 sql_manager.connect("database.db")
 def sql(command):
-    sql_manager.execute(command)
+    return sql_manager.execute(command)
 
 if __name__ == '__main__':    
     #running scripts
