@@ -23,6 +23,12 @@ Kuka Murmel Sotieroboter.
 - Vor dem ersten push: ```git config --global credential.helper store```
 - Danach push ausführen, Username und Access Token eingeben: ```git push origin main```
 - Änderungen können dann ohne Credentials gepushed werden
+# Usage
+Start Code in CWD:
+- ```python3 .```
+- ```python3 __main__.py```
+### Debug Modes:
+- **GUI:** ```python3 __main__.py --debugUI```
 # Tools:
 ### IP von RevPi in Netzwerk finden:
 - ```nmap -sn -T5 192.168.1.0/24 | grep -B2 Kunbus```
