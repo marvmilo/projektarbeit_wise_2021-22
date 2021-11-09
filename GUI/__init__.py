@@ -1,8 +1,12 @@
 import threading
 
+#import other Scripts
+from . import webserver
+
 #main function of script
 def Main(values, sql):
-    print("this is GUI Script")
+    webserver.init_callbacks(values, sql)
+    webserver.run()
 
 #main thread of script
 class Thread(threading.Thread):

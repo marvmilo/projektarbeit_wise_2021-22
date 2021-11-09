@@ -1,5 +1,6 @@
 import time
 import os
+import sys
 import marvmiloTools as mmt
 
 #import other scripts
@@ -46,16 +47,28 @@ sql_manager.connect("database.db")
 def sql(command):
     sql_manager.execute(command)
 
-#running scripts
-for s in scripts:
-    thread = s.Thread(values, sql)
-    thread.start()
+if __name__ == '__main__':    
+    #running scripts
+    for s in scripts:
+        thread = s.Thread(values, sql)
+        #thread.start()
+        
+        #GUI debugger
+        try:
+            if sys.argv[1] == "--debugUI" and s == GUI:
+                print("GUI DEBUG MODE ACTIVE!")
+                GUI.webserver.init_callbacks(values, sql)
+                GUI.webserver.run(debug = True)
+            else: 
+                thread.start()
+        except IndexError:
+            thread.start()
 
-#main loop
-try:
-    while True:
-        time.sleep(1)
-                
-except KeyboardInterrupt:
-    sql_manager.disconnect()
-    os._exit(0)
+    #main loop
+    try:
+        while True:
+            time.sleep(1)
+                    
+    except KeyboardInterrupt:
+        sql_manager.disconnect()
+        os._exit(0)
