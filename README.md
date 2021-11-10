@@ -25,10 +25,10 @@ Kuka Murmel Sotieroboter.
 - Änderungen können dann ohne Credentials gepushed werden
 # Usage
 Start Code in CWD:
-- ```python3 .```
-- ```python3 __main__.py```
+- ```python .```
+- ```python __main__.py```
 ### Debug Modes:
-- **GUI:** ```python3 ./GUI_debugger.py```
+- **GUI:** ```python ./GUI_debugger.py```
 # Tools:
 ### IP von RevPi in Netzwerk finden:
 - ```nmap -sn -T5 192.168.1.0/24 | grep -B2 Kunbus```
@@ -46,3 +46,13 @@ static ip_address=192.168.0.4/24
 2. Static IP
 3. Storage
 4. init Git Workspace
+### Virtual Enviroment:
+#### Erstellen:
+```python -m venv env```
+#### Aktiviren:
+- Windows: ```env\Scripts\activate```
+- Linux: ```source env/bin/actiatve```
+#### Alle Packages installieren:
+```pip install -r requirements.txt```
+#### Aktuelle Packages hinzufügen:
+```pip freeze > requirements.txt```
