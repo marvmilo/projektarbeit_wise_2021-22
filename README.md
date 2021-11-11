@@ -56,3 +56,5 @@ static ip_address=192.168.0.4/24
 ```pip install -r requirements.txt```
 #### Aktuelle Packages hinzufügen:
 ```pip freeze > requirements.txt```
+#### Aktuelle Packages im enviroment updaten:
+```pip install -r requirements.txt --upgrade```

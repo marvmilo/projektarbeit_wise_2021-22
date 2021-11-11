@@ -222,7 +222,7 @@
     -ms-flex-pack: justify;
     justify-content: center;
     padding: 1rem 1rem;
-    box-shadow: 0 0.5em 2em rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0.5em 0.5em rgba(0, 0, 0, 0.5);
 }
 
 .navbar-collapse {
@@ -306,6 +306,7 @@ a:hover {
     margin-bottom: 0;
     background-color: #444;
     box-shadow: 0 0.5em 0.5em rgb(0 0 0 / 35%);
+    z-index: 0;
 }
 
 .custom-select:focus {
