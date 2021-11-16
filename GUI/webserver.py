@@ -23,15 +23,17 @@ app.layout = layout.structure(settings.name, layout.main_content)
 
 #for init callbacks
 def init_callbacks(values, sql):
-    pass
-    # #test callback
-    # @app.callback(
-    #     [Output("test-out", "children")],
-    #     [Input("test-in", "n_clicks")]
-    # )
-    # def ct(n_clicks):
-    #     return callbacks.test_callback(values, n_clicks)
+    
+    #navbar toggler callback
+    @app.callback(*mmt.dash.nav.callback_args)
+    def cn(n, is_open):
+        return mmt.dash.nav.callback_function(n, is_open)
 
 #run web application
 def run(debug = False):
-    app.run_server(debug = debug)
+    app.run_server(
+        debug = debug, 
+        host = "0.0.0.0",
+        port = 80,
+        #ssl_context = "adhoc"
+    )
