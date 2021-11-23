@@ -1,6 +1,5 @@
 from  multiprocessing import Process, Pipe
-import socket, time
-import select
+import os, socket, time
 
 
 
@@ -8,14 +7,14 @@ class TCP_Server:
     def __init__(self):
         self.info = "This is the TCP Module for Roboter-Communication of Group Nö1"
         self.commandfile_path = "server_commandfile.txt"
+        self.xmlfile_path = "server_xmlfile.xml"
 
     def server_process_function(self, pipe):
-        def create_commandfile():
+        def create_commandfile(data=""):
             with open("server_commandfile.txt", "w") as dok:
-                dok.write("")
-                import os
-                pipe.send(os.getcwd()+"/server_commandfile.txt")
-                del os
+                dok.write(data)
+            path = os.getcwd()+"/server_commandfile.txt"
+            return path
         def clear_commandfile():
             with open("server_commandfile.txt", "w") as dok:
                 dok.write("")
@@ -24,50 +23,69 @@ class TCP_Server:
                 data = dok.read()
                 clear_commandfile()
                 return data
-        def delete_commandfile():
-            import os
+        def delete_files():
             os.remove("server_commandfile.txt")
-            del os
+            os.remove("server_xmlfile.xml")
+        def write_xmlfile(data):
+            with open("server_xmlfile.xml", "w") as dok:
+                dok.write(data)
+            path = os.getcwd()+"/server_xmlfile.xml"
+            return path
+        
+        buffer_send_data = None
+
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.s.setblocking(0)
+        self.s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.s.bind(("", 59152))
         self.s.listen(1)
-        create_commandfile()
+        pipe.send("{}\n{}".format(create_commandfile(), write_xmlfile("")))
         while True:
             conn = 0
             while not conn:
                 command = read_commandfile()
                 if command.startswith("stop"):
                     self.s.close()
-                    delete_commandfile()
+                    delete_files()
                     exit()
                 try:
                     conn, addr = self.s.accept()
                 except BlockingIOError:
                     pass
             print("TCP Server connected to client ---> {}".format(addr))
+            conn.setblocking(0)
             while True:
-                conn.setblocking(0)
-                while 1:
+                try:
+                    write_xmlfile(conn.recv(1024).decode())#blocking???
+                except BlockingIOError:
+                    #keine Daten über tcp abrufbar
+                    pass
+                except BrokenPipeError:
+                    print("TCP Server disconnected from client!\nTrying to resend data when reconnected.")
+                    break
+                if buffer_send_data:
                     try:
-                        pipe.send(conn.recv(1024).decode())
-                    except BlockingIOError:
-                        #keine Daten über tcp abrufbar
-                        pass
-                    except ConnectionAbortedError:
-                        print("TCP Server disconnected from client!")
+                        conn.send(buffer_send_data)
+                        buffer_send_data = None
+                    except:
+                        print("TCP Server disconnected from client!\nTrying to resend data when reconnected.")
                         break
-                    command = read_commandfile()
-                    if command.startswith("send"):
-                        conn.send("\n".join(command.split("\n")[1:]).encode())
-                    elif command.startswith("stop"):
-                        conn.close()
-                        self.s.close()
-                        delete_commandfile()
-                        exit()
-                    time.sleep(0.1)
-                conn.close()
-                break
+                command = read_commandfile()
+                if command.startswith("send"):
+                    buffer_send_data = "\n".join(command.split("\n")[1:]).encode()
+                    try:
+                        conn.send(buffer_send_data)
+                        buffer_send_data = None
+                    except BrokenPipeError:
+                        print("TCP Server disconnected from client!\nTrying to resend data when reconnected.")
+                        break
+                elif command.startswith("stop"):
+                    conn.close()
+                    self.s.close()
+                    delete_files()
+                    exit()
+                time.sleep(0.1)
+            conn.close()
     
     def send_command(self, command):
         while not open(self.commandfile_path, "r").read() == "":
@@ -75,12 +93,17 @@ class TCP_Server:
         with open(self.commandfile_path, "w") as dok:
             dok.write(command)
 
+    def read_robot_xml(self):
+        data = open(self.xmlfile_path, "r").read()
+        open(self.xmlfile_path, "w").write("")
+        return data
+
     def start_server_process(self):
         print("TCP Server is starting up...")
         self.parent_conn, self.child_conn = Pipe()
         self.server_process = Process(target=self.server_process_function, args=(self.child_conn,))
         self.server_process.start()
-        self.commandfile_path = self.parent_conn.recv()
+        self.commandfile_path, self.xmlfile_path = self.parent_conn.recv().split("\n")
 
     def stop_server_process(self):
         print("TCP Server is stopping...")
@@ -89,35 +112,3 @@ class TCP_Server:
     def send_data(self, data):
         print("TCP Server is sending data...")
         self.send_command("send\n{}".format(data))
-
-
-
-
-""" def __init__(self):
-        self.p_parent, self.p_child = Pipe()
-        Process(target=tcp_process_function, args=(self.p_child,)).start()
-        #send_data = "Hello"
-        #parent.send(send_data)
-
-    
-    def tcp_process_function(self, pipe_conn):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(("", 59152))
-        s.listen(1)
-        while True:
-            conn, addr = s.accept()
-            while True:
-                data = conn.recv(1024)
-                if not data:
-                    conn.close()
-                    break
-                print("[{}] {}".format(addr[0], data.decode()))
-                nachricht = input("Antwort: ")
-                conn.send(nachricht.encode())
-        s.close()
-        #message = output_p.recv()
-        sys.exit(1)
-    
-    def send_data(self, data):
-        pipe_send.send(data)
-"""

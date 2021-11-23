@@ -1,7 +1,7 @@
 from lxml import etree as ET
 
 class RobotData:
-    def set_btp_position(self, pX, pY, pZ, pA, pB, pC):
+    def set_btp_position(self, pX, pY, pZ, pA=0, pB=0, pC=0):
         accept = (type(0), type(0.0))
         not_accepted_value = 0
         if not type(pX) in accept:

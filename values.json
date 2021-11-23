@@ -1,28 +1,29 @@
 {
-    "status": false,
-    "marbel": {
+    "robot": {
+        "start_command": false,
+        "status": null
+    },
+    "ball": {
         "color": null,
         "x": 0,
-        "y": 0
+        "y": 0,
+        "z_standard": 0
     },
     "colors": {
         "red": {
-            "container": null,
+            "container_num": 100,
             "sorted": 0
         },
         "green": {
-            "container": null,
+            "container_num": 200,
             "sorted": 0
         },
         "yellow": {
-            "container": null,
+            "container_num": 300,
             "sorted": 0
         }
     },
-    "total": {
-        "marbels": 30,
-        "sorted": 0,
-        "seconds": 0.0,
-        "precentage": 0.0
+    "camera":{
+        "take_picture": 0
     }
 }
