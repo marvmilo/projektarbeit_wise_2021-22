@@ -1,82 +1,25 @@
 <ETHERNETKRL>
     <CONFIGURATION>
         <EXTERNAL>
-            <IP>x.x.x.x</IP><!--IP of RevPi-->
-            <PORT>59152</PORT><!--Port of RevPi server-->
+            <IP>172.31.1.160</IP>
+            <PORT>59152</PORT>
         </EXTERNAL>
+        <INTERNAL>
+            <ALIVE Set_Flag="1"/><!--gesetzt wenn Verbindung aktiv ist-->
+        </INTERNAL>
     </CONFIGURATION>
     <RECEIVE>
         <XML>
-            <ELEMENT Tag="recv/robot/movementclear" Type="BOOL" /><!--movementclearance for robot-->
-            <ELEMENT Tag="recv/btp/position" Type="FRAME" /><!--position where the ball can be picked up-->
-            <ELEMENT Tag="recv/btp/containernum" Type="INT" /><!--containerposition the ball needs to be placed in-->
+            <ELEMENT Tag="recv/robot/movementclear" Type="BOOL"/><!--Bewegungsfreigabe-->
+            <ELEMENT Tag="recv/btp/position" Type="FRAME"/><!--Abholposition-->
+            <ELEMENT Tag="recv/btp/containernum" Type="INT"/><!--Containernummer-->
+            <ELEMENT Tag="recv/btp" Set_Flag="2"/><!--wird gesetzt, wenn Daten ankommen-->
         </XML>
     </RECEIVE>
     <SEND>
         <XML>
-            <ELEMENT Tag="snd/robot/status" /><!--free configurable statusmessage the Robot can send-->
-            <ELEMENT Tag="snd/robot/position" /><!--send information about robot position-->
-            <ELEMENT Tag="snd/btp/isplaced" /><!--send true when ball is placed-->
+            <ELEMENT Tag="snd/robot/status"/><!--False wenn in Bewegung / True in HomePosition-->
+            <ELEMENT Tag="snd/btp/isplaced"/><!--Containernummer, wenn Murmel eingelegt-->
         </XML>
     </SEND>
 </ETHERNETKRL>
-
-<!--
-    
-<RECEIVE>
-    <XML>
-        <ELEMENT Tag="Sensor/Message" Type="STRING" />
-        <ELEMENT Tag="Sensor/Positions/Current/@X" Type="REAL" />
-        <ELEMENT Tag="Sensor/Positions/Before/X" Type="REAL" />
-        <ELEMENT Tag="Sensor/Nmb" Type="INT" />
-        <ELEMENT Tag="Sensor/Status/IsActive" Type="BOOL" />
-        <ELEMENT Tag="Sensor/Show/@error" Type="BOOL" />
-        <ELEMENT Tag="Sensor/Show/@temp" Type="INT" />
-        <ELEMENT Tag="Sensor/Show" Type="STRING" />
-        <ELEMENT Tag="Sensor/Free" Type="INT" />
-        <ELEMENT Tag="btp/position" Type="FRAME" />
-    </XML>
-</RECEIVE>
-
-<SEND>
-    <XML>
-        <ELEMENT Tag="Robot/Data/LastPos/@X" />
-        <ELEMENT Tag="Robot/Data/LastPos/@Y" />
-        <ELEMENT Tag="Robot/Data/LastPos/@Z" />
-        <ELEMENT Tag="Robot/Data/LastPos/@A" />
-        <ELEMENT Tag="Robot/Data/LastPos/@B" />
-        <ELEMENT Tag="Robot/Data/LastPos/@C" />
-        <ELEMENT Tag="Robot/Data/ActPos/@X" />
-        <ELEMENT Tag="Robot/Status" />
-        <ELEMENT Tag="Robot/Mode" />
-        <ELEMENT Tag="Robot/RobotLamp/GrenLamp/LightOn" />
-    </XML>
-</SEND>
-
-
-
-<RECEIVING_DATA_EXAMPLE>
-    <recv>
-        <robot>
-            <movementclear>0</movementclear>
-        </robot>
-        <btp>
-            <position X="4" Y="0" Z="6" A="7" B="8" C="9"/>
-            <containernum>5</containernum>
-        </btp>
-    </recv>
-</RECEIVING_DATA_EXAMPLE>
-
-<SENDING_DATA_EXAMPLE>
-    <snd>
-        <robot>
-            <position />
-            <status>Message</status>
-        </robot>
-        <btp>
-            <isplaced>False</isplaced>
-        </btp>
-    </snd>
-</SENDING_DATA_EXAMPLE>
-
--->>
