@@ -19,6 +19,7 @@
     <SEND>
         <XML>
             <ELEMENT Tag="snd/robot/status"/><!--False wenn in Bewegung / True in HomePosition-->
+            <ELEMENT Tag="snd/robot/cameraarea"/><!--True wenn Roboter Kamera blockiert / False wenn nicht-->
             <ELEMENT Tag="snd/btp/isplaced"/><!--Containernummer, wenn Murmel eingelegt-->
         </XML>
     </SEND>
