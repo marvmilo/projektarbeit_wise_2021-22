@@ -1,7 +1,13 @@
 {
+    "server":{
+        "stop": 0,
+        "send_command": null
+    },    
     "robot": {
         "start_command": false,
-        "status": null
+        "status": null,
+        "cameraarea": true,
+        "movementclear": false
     },
     "ball": {
         "color": null,

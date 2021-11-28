@@ -30,7 +30,7 @@ class RobotData:
             print("Wasn't able to set \"btp_containernum\" to \"{}\"\nValue must be an integer, the type of your variable is {}!".format(cnum, type(cnum)))
     def set_movementclear(self, mvalue):
         try:
-            self.movementclearance = str(int(mvalue))
+            self.movementclearance = str(bool(mvalue))
         except:
             print("Wasn't able to set \"moevementclear\" to \"{}\"\nValue must be an boolean or integer, the type of your variable is {}!".format(mvalue, type(mvalue)))
     
@@ -53,20 +53,25 @@ class RobotData:
         return ret_str
     def read_xml(self, xml_data):
         # returns dictionary
+        def bool_from_str(input):
+            if input.lower() == "false":
+                return False
+            else:
+                return True
         ret_dict = {}
         xml_tree = ET.fromstring(xml_data)
         for xml_snd in xml_tree:
             if xml_snd.tag == "robot":
                 for xml_snd_robot in xml_snd:
-                    if xml_snd_robot.tag == "position":
-                        ret_dict["robot_position"] = "feature not implemented yet(robot_xml.py, line 62)"
+                    if xml_snd_robot.tag == "cameraarea":
+                        ret_dict["robot_cameraarea"] = bool_from_str(xml_snd_robot.text)
                     if xml_snd_robot.tag == "status":
-                        ret_dict["robot_status"] = xml_snd_robot.text
+                        ret_dict["robot_status"] = bool_from_str(xml_snd_robot.text)
             if xml_snd.tag == "btp":
                 for xml_snd_btp in xml_snd:
                     if xml_snd_btp.tag == "isplaced":
                         try:
-                            ret_dict["btp_isplaced"] = bool(int(xml_snd_btp.text))
+                            ret_dict["btp_isplaced"] = int(xml_snd_btp.text)
                         except:
                             pass
         return ret_dict
