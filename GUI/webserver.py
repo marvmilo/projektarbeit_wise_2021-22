@@ -19,7 +19,7 @@ app = dash.Dash(
     external_stylesheets = [dbc.themes.DARKLY]
 )
 dbt.load_figure_template("darkly")
-app.layout = layout.structure(settings.name, layout.main_content)
+app.layout = layout.structure(settings.name)
 
 #for init callbacks
 def init_callbacks(values, sql):
@@ -28,12 +28,16 @@ def init_callbacks(values, sql):
     @app.callback(*mmt.dash.nav.callback_args)
     def cn(n, is_open):
         return mmt.dash.nav.callback_function(n, is_open)
+    
+    # #page location callback
+    # @app.callback(
+    #     []
+    # )
 
 #run web application
 def run(debug = False):
     app.run_server(
         debug = debug, 
         host = "0.0.0.0",
-        port = 80,
-        #ssl_context = "adhoc"
+        port = 80
     )
