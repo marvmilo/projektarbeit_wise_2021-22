@@ -7,7 +7,7 @@ def show(img, name = "image"):
     cv2.waitKey(500)
 
 #open image
-img = cv2.imread("./pictures/IMG_20211129_153751.jpg", cv2.IMREAD_COLOR)
+img = cv2.imread("./pictures/demo.jpg", cv2.IMREAD_COLOR)
 
 #resize image
 scale_percent = 25
