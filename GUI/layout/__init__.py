@@ -14,19 +14,18 @@ def structure(title):
     return html.Div(
         children = [
             navbar(title),
-            html.Div(
+            mmt.dash.content_div(
+                width = "1200px",
+                padding = "5rem",
                 children = [
-                    mmt.dash.content_div(
-                        width = "1200px",
-                        padding = "5%",
-                        children = [
-                            html.Div(
-                                dbc.Spinner(spinner_style = {"width": "3rem", "height": "3rem"}),
-                                style = mmt.dash.flex_style({"height": "20rem"})
-                            )
-                        ]
+                    html.Div(
+                        html.Div(
+                            dbc.Spinner(spinner_style = {"width": "3rem", "height": "3rem"}),
+                            style = mmt.dash.flex_style({"height": "20rem"})
+                        ),
+                        id = "main-content"
                     )
-                ]  
+                ]
             ),
             dcc.Location(id = "url")
         ]

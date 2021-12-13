@@ -29,10 +29,20 @@ def init_callbacks(values, sql):
     def cn(n, is_open):
         return mmt.dash.nav.callback_function(n, is_open)
     
-    # #page location callback
-    # @app.callback(
-    #     []
-    # )
+    #page location callback
+    @app.callback(
+        Output("main-content", "children"),
+        Input("url", "pathname")
+    )
+    def cl(path):
+        if path == "/control":
+            return layout.control.content
+        elif path == "/containers":
+            return layout.containers.content
+        elif path == "/history":
+            return layout.history.content
+        else:
+            return layout.home.content
 
 #run web application
 def run(debug = False):
