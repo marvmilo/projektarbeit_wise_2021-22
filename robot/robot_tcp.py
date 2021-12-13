@@ -110,5 +110,5 @@ class TCP_Server:
         self.send_command("stop")
     
     def send_data(self, data):
-        print("TCP Server is sending data...")
+        print("TCP Server is sending data..." + data)
         self.send_command("send\n{}".format(data))
