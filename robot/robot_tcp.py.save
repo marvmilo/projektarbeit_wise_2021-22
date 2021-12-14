@@ -63,7 +63,7 @@ class TCP_Server:
                 except BrokenPipeError:
                     print("TCP Server disconnected from client!\nTrying to resend data when reconnected.")
                     break
-                if not buffer_send_data == None:
+                if not buffer_send_data:
                     try:
                         conn.send(buffer_send_data)
                         buffer_send_data = None

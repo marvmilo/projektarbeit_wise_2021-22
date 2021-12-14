@@ -13,7 +13,7 @@ location_image = "./cam/location_image.jpg"
 def Main(values, sql):
     while True:
         #capture picture
-        os.system(f"libcamera-jpeg -o {image} -t 1 --width 1014 --height 760 > /dev/null 2>&1")
+        os.system(f"libcamera-jpeg -o {image} -n -t 1 --width 1014 --height 760 > /dev/null 2>&1")
         
         #get circles through hought transformation
         circles = hough.transformation(image)
@@ -30,6 +30,7 @@ def Main(values, sql):
             values.ball.x = 0
             values.ball.y = 0
             values.ball.color = None
+        #print(values)
         
         time.sleep(1)
     

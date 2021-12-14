@@ -24,6 +24,7 @@ class RobotData:
             print("Wasn't able to set \"btp_position/{}\" to your Input \"{}\"\nIt's been set to the standard Value \"{}\".\nValue must be a float or integer, the type of your variable is {}!".format("pC", pC, not_accepted_value, type(pC)))
         self.btp_position = {"X": str(pX), "Y": str(pY), "Z": str(pZ), "A": str(pA), "B": str(pB), "C": str(pC)}
     def set_btp_container(self, cnum):
+        #print(cnum)
         try:
             self.btp_containernum = str(int(cnum))
         except:
@@ -59,6 +60,7 @@ class RobotData:
             else:
                 return True
         ret_dict = {}
+        print(xml_data)
         xml_tree = ET.fromstring(xml_data)
         for xml_snd in xml_tree:
             if xml_snd.tag == "robot":

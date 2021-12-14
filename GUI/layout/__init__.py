@@ -16,7 +16,7 @@ def structure(title):
             navbar(title),
             mmt.dash.content_div(
                 width = "1200px",
-                padding = "5rem",
+                padding = "5%",
                 children = [
                     html.Div(
                         html.Div(

@@ -13,9 +13,10 @@ def Main(values, sql):
         values["ball"]["y"] = 0
 
     def get_container_num(color):
-        for x in values["colors"]:
+        for x in values["colors"].keys():
             if x == color:
-                return int(x["container_num"])
+                #print(values["colors"][x]["container_num"])
+                return int(values["colors"][x]["container_num"])
     
     def add_container(c_num):
         for x in values["colors"]:
@@ -35,8 +36,10 @@ def Main(values, sql):
             server.send_data(values["server"]["send_command"])
 
         if not values["ball"]["color"] == None:
+            #print(values.pretty())
             xml.set_btp_container(get_container_num(values["ball"]["color"]))
             xml.set_btp_position(values["ball"]["x"], values["ball"]["y"], values["ball"]["z_standard"])
+            xml.set_movementclear(True)#experimental!!!
             del_ball_values()
             server.send_data(xml.create_xml())
         

@@ -45,9 +45,9 @@ def init_callbacks(values, sql):
             return layout.home.content
 
 #run web application
-def run(debug = False):
+def run(debug = False, port = 80):
     app.run_server(
         debug = debug, 
         host = "0.0.0.0",
-        port = 80
+        port = port
     )

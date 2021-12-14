@@ -15,4 +15,4 @@ def sql(command):
 #run webserver
 if __name__ == "__main__":
     webserver.init_callbacks(values, sql)
-    webserver.run(debug = True)
+    webserver.run(debug = True, port = 8050)

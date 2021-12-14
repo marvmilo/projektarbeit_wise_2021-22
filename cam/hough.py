@@ -38,12 +38,12 @@ def cordinates(circles, filename):
     else:
         color_string = "green"
     
-    cal1_px = (229, 130)
-    cal2_px = (962, 622)
+    cal1_px = (190, 147)
+    cal2_px = (881, 624)
     x_px_total = cal2_px[1] - cal1_px[1]
     y_px_total = cal2_px[0] - cal1_px[0]
-    x_mm_total = 207
-    y_mm_total = 305
+    x_mm_total = 202
+    y_mm_total = 289
     
     pos_px_x = x_px_total - (circle[1] - cal1_px[1])
     pos_px_y = y_px_total - (circle[0] - cal1_px[0])

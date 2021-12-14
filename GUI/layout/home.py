@@ -24,6 +24,11 @@ content = html.Div(
                 style = {"text-align": "center"}
             ),
             style = mmt.dash.flex_style()
+        ),
+        html.Br(),
+        html.Div(
+            html.Div(),
+            style = mmt.dash.flex_style()
         )
     ]
 )
