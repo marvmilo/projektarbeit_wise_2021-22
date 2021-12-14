@@ -1,10 +1,9 @@
 {
-    "server":{
+    "server": {
         "stop": 0,
         "send_command": null
-    },    
+    },
     "robot": {
-        "start_command": false,
         "status": null,
         "cameraarea": true,
         "movementclear": false
@@ -29,7 +28,7 @@
             "sorted": 0
         }
     },
-    "camera":{
+    "camera": {
         "take_picture": 0
     }
 }
