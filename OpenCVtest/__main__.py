@@ -4,37 +4,39 @@ import imutils
 #show im function
 def show(img, name = "image"):
     cv2.imshow("image", img)
-    cv2.waitKey(500)
+    cv2.waitKey(0)
 
 #open image
 img = cv2.imread("./pictures/demo.jpg", cv2.IMREAD_COLOR)
 
 #resize image
-scale_percent = 25
+scale_percent = 100
 width = int(img.shape[1] * scale_percent / 100)
 height = int(img.shape[0] * scale_percent / 100)
 dim = (width, height)
 resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
 show(resized)
+print(f"new image size: {resized.shape}")
 
 #crop/blur image
-img = resized[300:725, 75:375]
-gaussian_blurr = cv2.GaussianBlur(img, (11, 11), 0)
+img = resized[100:390, 175:590]
+show(img)
+gaussian_blurr = cv2.GaussianBlur(img, (5, 5), 0)
 show(gaussian_blurr)
 
 #filters
 color_filters = {
     "green": {
-        "lower": (29, 86, 6),
-        "upper": (64, 255, 255)
+        "lower": (50, 86, 6),
+        "upper": (85, 255, 255)
     },
     "yellow": {
         "lower": (13, 99, 81),
-        "upper": (28, 255, 255)
+        "upper": (38, 255, 255)
     },
     "red": {
-        "lower": (160,50,50),
-        "upper": (180,255,255)
+        "lower": (150,86, 6),
+        "upper": (250,255,255)
     }
 }
 

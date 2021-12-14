@@ -1,7 +1,10 @@
 # Projektarbeit Wintersemester 2021/22
 Kuka Murmel Sotieroboter.
 # Aufbau:
-![Database](./pictures/aufbau.jpg)
+![aufbau](./pictures/aufbau.jpg)
+# GUI
+### Structure:
+![UI structure](./pictures/UIstructure.jpg)
 # Github Usage:
 ## Init lokales Repository
 1. Install Git
@@ -49,7 +52,7 @@ static ip_address=192.168.0.4/24
 ### Virtual Enviroment:
 #### Erstellen:
 ```python -m venv env```
-#### Aktiviren:
+#### Aktivieren:
 - Windows: ```env\Scripts\activate```
 - Linux: ```source env/bin/actiatve```
 #### Alle Packages installieren:
