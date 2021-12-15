@@ -1,7 +1,8 @@
 {
     "server": {
         "stop": 0,
-        "send_command": null
+        "send_command": null,
+        "connection_status": false
     },
     "robot": {
         "status": null,
@@ -29,6 +30,5 @@
         }
     },
     "camera": {
-        "take_picture": 0
     }
 }
