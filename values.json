@@ -5,7 +5,7 @@
         "connection_status": false
     },
     "robot": {
-        "status": null,
+        "movementstatus": null,
         "cameraarea": true,
         "movementclear": true
     },

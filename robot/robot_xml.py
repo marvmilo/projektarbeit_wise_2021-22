@@ -67,8 +67,8 @@ class RobotData:
                 for xml_snd_robot in xml_snd:
                     if xml_snd_robot.tag == "cameraarea":
                         ret_dict["robot_cameraarea"] = bool_from_str(xml_snd_robot.text)
-                    if xml_snd_robot.tag == "status":
-                        ret_dict["robot_status"] = bool_from_str(xml_snd_robot.text)
+                    if xml_snd_robot.tag == "movmentstatus":
+                        ret_dict["robot_movementstatus"] = bool_from_str(xml_snd_robot.text)
             if xml_snd.tag == "btp":
                 for xml_snd_btp in xml_snd:
                     if xml_snd_btp.tag == "isplaced":

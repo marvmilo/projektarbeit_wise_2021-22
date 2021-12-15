@@ -39,8 +39,8 @@ def Main(values, sql):
             for x in robot_dict.keys():
                 if x == "robot_cameraarea":
                     values["robot"]["cameraarea"] = robot_dict[x]
-                #if x == "robot_status":
-                #    values["robot"]["status"] = robot_dict[x]
+                if x == "robot_movementstatus":
+                    values["robot"]["movementstatus"] = robot_dict[x]
                 if x == "btp_isplaced":
                     print("Ball was placed in container {}".format(robot_dict[x]))
                     add_container(robot_dict[x])
