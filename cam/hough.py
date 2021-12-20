@@ -31,12 +31,14 @@ def cordinates(circles, filename):
     color = (src[int(circle[1]), int(circle[0]+10)])
 
     color_string = None
-    if color[0] < 15:
+    #print(color)
+    if color[0] < 25:
         color_string = "yellow"
-    elif color[1] < 100:
+    elif color[1] < 125:
         color_string = "red"
     else:
         color_string = "green"
+    #print(color_string)
     
     cal1_px = (190, 147)
     cal2_px = (881, 624)

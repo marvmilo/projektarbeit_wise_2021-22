@@ -6,14 +6,16 @@
     },
     "robot": {
         "movementstatus": null,
-        "cameraarea": true,
-        "movementclear": true
+        "cameraarea": false,
+        "movementclear": true,
+        "xml": null
     },
     "ball": {
         "color": null,
         "x": 0,
         "y": 0,
-        "z_standard": 0
+        "z_standard": 0,
+        "prev_ball_placed": true
     },
     "colors": {
         "red": {

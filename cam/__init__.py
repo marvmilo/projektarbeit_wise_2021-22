@@ -1,6 +1,7 @@
 import threading
 import time
 import os
+import cv2
 
 #import other scripts
 from . import hough
@@ -12,26 +13,34 @@ location_image = "./cam/location_image.jpg"
 #main function of script
 def Main(values, sql):
     while True:
+        #print(values.robot.movementclear, values.robot.cameraarea)
         if values.robot.movementclear and not values.robot.cameraarea:
-            #capture picture
-            os.system(f"libcamera-jpeg -o {image} -n -t 1 --width 1014 --height 760 > /dev/null 2>&1")
-            
-            #get circles through hought transformation
-            circles = hough.transformation(image)
-            
-            if circles is not None:
-                x, y, color = hough.cordinates(circles, image)
-                hough.save_location_image(circles, image, location_image)
-                
-                values.ball.x = x
-                values.ball.y = y
-                values.ball.color = color
-            else:
-                values.movementclear = False
-                values.ball.x = 0
-                values.ball.y = 0
-                values.ball.color = None
-            #print(values)
+            class Evaluate_Camera(threading.Thread):
+                def __init__(self):
+                    threading.Thread.__init__(self)
+                def run(self):
+                    #capture picture
+                    os.system(f"libcamera-jpeg -o {image} -n -t 1 --width 1014 --height 760 > /dev/null 2>&1")
+                    
+                    #get circles through hought transformation
+                    circles = hough.transformation(image)
+                    
+                    if circles is not None:
+                        if not values.ball.color:
+                            x, y, color = hough.cordinates(circles, image)
+                            hough.save_location_image(circles, image, location_image)
+                            values.ball.x = x
+                            values.ball.y = y
+                            values.ball.color = color
+                        
+                    else:
+                        values.movementclear = False
+                        values.ball.x = 0
+                        values.ball.y = 0
+                        values.ball.color = None
+            #start thread
+            evaluate_camera_thread = Evaluate_Camera()
+            evaluate_camera_thread.start()
         
         time.sleep(1)
     

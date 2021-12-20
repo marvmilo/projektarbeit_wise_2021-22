@@ -60,13 +60,16 @@ class RobotData:
             else:
                 return True
         ret_dict = {}
-        print(xml_data)
+        xml_data = "".join(xml_data.split("</snd><snd>"))
+        #xml_data = "".join(xml_data.split("</robot></snd><snd><robot>"))
+        #xml_data = "".join(xml_data.split("</btp></snd><snd><btp>"))
+        #print("XML_DATA:", repr(xml_data))
         xml_tree = ET.fromstring(xml_data)
         for xml_snd in xml_tree:
             if xml_snd.tag == "robot":
                 for xml_snd_robot in xml_snd:
                     if xml_snd_robot.tag == "cameraarea":
-                        ret_dict["robot_cameraarea"] = bool_from_str(xml_snd_robot.text)
+                        ret_dict["robot_cameraarea"] = bool(int(xml_snd_robot.text))
                     if xml_snd_robot.tag == "movmentstatus":
                         ret_dict["robot_movementstatus"] = bool_from_str(xml_snd_robot.text)
             if xml_snd.tag == "btp":
@@ -76,4 +79,5 @@ class RobotData:
                             ret_dict["btp_isplaced"] = int(xml_snd_btp.text)
                         except:
                             pass
+        #print(ret_dict)
         return ret_dict

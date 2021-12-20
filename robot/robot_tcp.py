@@ -1,4 +1,5 @@
 from  multiprocessing import Process, Pipe
+import threading
 import os, socket, time
 
 
@@ -10,7 +11,7 @@ class TCP_Server:
         self.commandfile_path = "robot/server_commandfile.txt"
         self.xmlfile_path = "robot/server_xmlfile.xml"
 
-    def server_process_function(self, pipe):
+    def server_process_function(self, pipe, values):
         def write_serverstatusfile(data=""):
             with open("robot/server_statusfile.txt", "w") as dok:
                 dok.write(data)
@@ -37,6 +38,7 @@ class TCP_Server:
             with open("robot/server_xmlfile.xml", "w") as dok:
                 dok.write(data)
             path = os.getcwd()+"/robot/server_xmlfile.xml"
+            values.robot.xml = data
             return path
         
         buffer_send_data = None
@@ -51,6 +53,7 @@ class TCP_Server:
             conn = 0
             while not conn:
                 command = read_commandfile()
+                #print(command)
                 if command.startswith("stop"):
                     self.s.close()
                     delete_files()
@@ -59,13 +62,14 @@ class TCP_Server:
                     conn, addr = self.s.accept()
                 except BlockingIOError:
                     pass
+                time.sleep(0.5)
             print("TCP Server connected to client ---> {}".format(addr))
             write_serverstatusfile("connected {}".format(addr))
             conn.setblocking(0)
             while True:
                 try:
                     recv_data = conn.recv(1024).decode()
-                    print("TCP Server received data... " + recv_data)
+                    print("TCP Server received data... ")
                     write_xmlfile(recv_data)#blocking???
                     del recv_data
                 except BlockingIOError:
@@ -112,16 +116,33 @@ class TCP_Server:
         with open(self.commandfile_path, "w") as dok:
             dok.write(command)
 
-    def read_robot_xml(self):
-        data = open(self.xmlfile_path, "r").read()
+    def read_robot_xml(self, values):
+        #data = open(self.xmlfile_path, "r").read()
+        data = values.robot.xml
+        values.robot.xml = ""
         open(self.xmlfile_path, "w").write("")
         return data
 
-    def start_server_process(self):
+    def start_server_process(self, values):
         print("TCP Server is starting up...")
         self.parent_conn, self.child_conn = Pipe()
-        self.server_process = Process(target=self.server_process_function, args=(self.child_conn,))
+        
+        class Server_Process(threading.Thread):
+            def __init__(self, function, pipe, values):
+                threading.Thread.__init__(self)
+                self.function = function
+                self.pipe = pipe
+                self.values = values
+            def run(self):
+                self.function(self.pipe, self.values)
+        
+        self.server_process = Server_Process(self.server_process_function, self.child_conn, values)
         self.server_process.start()
+        
+        # self.server_process = Process(target=self.server_process_function, args=(self.child_conn,))
+        # print("vor start")
+        # self.server_process.start()
+        # print("nach start")
         self.serverstatusfile_path, self.commandfile_path, self.xmlfile_path = self.parent_conn.recv().split("\n")
 
     def stop_server_process(self):
@@ -129,5 +150,5 @@ class TCP_Server:
         self.send_command("stop")
     
     def send_data(self, data):
-        print("TCP Server is sending data... " + data)
+        print("TCP Server is sending data... ")
         self.send_command("send\n{}".format(data))

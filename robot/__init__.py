@@ -23,9 +23,13 @@ def Main(values, sql):
             if values["colors"][x]["container_num"] == c_num:
                 values["colors"][x]["sorted"] += 1
         print("Counter in Container {:5} increased by 1".format(c_num))
+    
+    def sum_balls_sorted():
+        sum = 0
+        for x in values["colors"].keys():
+            sum += values["colors"][x]["sorted"]
                 
-
-    server.start_server_process()
+    server.start_server_process(values)
     prev_movementclear = False
 
     while 1:
@@ -33,8 +37,9 @@ def Main(values, sql):
             server.stop_server_process()
         
         #receiving data
-        robot_xml_data = server.read_robot_xml()
+        robot_xml_data = server.read_robot_xml(values)
         if not robot_xml_data == "":
+            #print(robot_xml_data)
             robot_dict = xml.read_xml(robot_xml_data)
             for x in robot_dict.keys():
                 if x == "robot_cameraarea":
@@ -42,21 +47,24 @@ def Main(values, sql):
                 if x == "robot_movementstatus":
                     values["robot"]["movementstatus"] = robot_dict[x]
                 if x == "btp_isplaced":
-                    print("Ball was placed in container {}".format(robot_dict[x]))
                     add_container(robot_dict[x])
+                    values.ball.prev_ball_placed = True
         
         #sending data
-        if server.check_serverstatus.startswith("connected"):
+        if server.check_serverstatus().startswith("connected"):
             if not values["server"]["send_command"] == None:
                 server.send_data(values["server"]["send_command"])
 
-            if not values["ball"]["color"] == None:
+            if not values["ball"]["color"] == None and values.ball.prev_ball_placed:
+                #sorting a ball
                 #print(values.pretty())
+                print(values.ball)
                 xml.set_btp_container(get_container_num(values["ball"]["color"]))
                 xml.set_btp_position(values["ball"]["x"], values["ball"]["y"], values["ball"]["z_standard"])
-                #xml.set_movementclear(True)#experimental!!!
+                xml.set_movementclear(True)#experimental!!!
                 del_ball_values()
                 server.send_data(xml.create_xml())
+                values.ball.prev_ball_placed = False
         
             if values["robot"]["movementclear"] != prev_movementclear:
                 xml.set_movementclear(values["robot"]["movementclear"])
