@@ -6,7 +6,7 @@ import marvmiloTools as mmt
 import cam
 import robot
 import GUI
-scripts = [cam, robot, GUI]
+scripts = [cam, robot] #, GUI]
 
 #global values variable
 values = mmt.json.load("values.json")

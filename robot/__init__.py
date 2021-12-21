@@ -58,7 +58,7 @@ def Main(values, sql):
             if not values["ball"]["color"] == None and values.ball.prev_ball_placed:
                 #sorting a ball
                 #print(values.pretty())
-                print(values.ball)
+                #print(values.ball)
                 xml.set_btp_container(get_container_num(values["ball"]["color"]))
                 xml.set_btp_position(values["ball"]["x"], values["ball"]["y"], values["ball"]["z_standard"])
                 xml.set_movementclear(True)#experimental!!!

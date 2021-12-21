@@ -69,7 +69,7 @@ class TCP_Server:
             while True:
                 try:
                     recv_data = conn.recv(1024).decode()
-                    print("TCP Server received data... ")
+                    print("TCP Server received data... " +  recv_data)
                     write_xmlfile(recv_data)#blocking???
                     del recv_data
                 except BlockingIOError:
@@ -150,5 +150,5 @@ class TCP_Server:
         self.send_command("stop")
     
     def send_data(self, data):
-        print("TCP Server is sending data... ")
+        print("TCP Server is sending data... ", data)
         self.send_command("send\n{}".format(data))
