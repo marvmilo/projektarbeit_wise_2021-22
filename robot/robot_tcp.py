@@ -12,7 +12,9 @@ class TCP_Server:
         self.xmlfile_path = "robot/server_xmlfile.xml"
 
     def server_process_function(self, pipe, values):
+        print("PROCESS")
         def write_serverstatusfile(data=""):
+            values.server.status = data
             with open("robot/server_statusfile.txt", "w") as dok:
                 dok.write(data)
             path = os.getcwd()+"/robot/server_statusfile.txt"

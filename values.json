@@ -2,12 +2,13 @@
     "server": {
         "stop": 0,
         "send_command": null,
-        "connection_status": false
+        "connection_status": false,
+        "status": null
     },
     "robot": {
         "movementstatus": null,
         "cameraarea": false,
-        "movementclear": true,
+        "movementclear": false,
         "xml": null
     },
     "ball": {
@@ -30,7 +31,5 @@
             "container_num": 300,
             "sorted": 0
         }
-    },
-    "camera": {
     }
 }

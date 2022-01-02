@@ -27,7 +27,26 @@ def structure(title):
                     )
                 ]
             ),
-            dcc.Location(id = "url")
+            dcc.Location(id = "url"),
+            html.Div(
+                children = [
+                    dcc.Interval(id = "control-interval", disabled = True),
+                    html.Div(id = "control-icon-div"),
+                    html.Div(id = "container-1-icon-div"),
+                    html.Div(id = "container-2-icon-div"),
+                    html.Div(id = "container-3-icon-div"),
+                    html.Div(id = "control-container-1-color"),
+                    html.Div(id = "control-container-2-color"),
+                    html.Div(id = "control-container-3-color"),
+                    html.Div(id = "control-interact-div"),
+                    dbc.Select(id = "container-1-select"),
+                    dbc.Select(id = "container-2-select"),
+                    dbc.Select(id = "container-3-select"),
+                    dbc.Button(id = "control-start-button"),
+                    html.Div(id = "dummy")
+                ],
+                style = {"display": "none"}
+            )
         ]
     )
 
@@ -66,3 +85,26 @@ def navbar(title):
             )
         ]
     )
+
+#not found page
+not_found = html.Div(
+    html.Div(
+        children = [
+            html.Div(
+                "404",
+                style = mmt.dash.flex_style({
+                    "fontSize": "7rem",
+                    "fontWeight": "bold"
+                })
+            ),
+            html.Div(
+                "Not Found!",
+                style = mmt.dash.flex_style({
+                    "fontSize": "2rem",
+                    "fontWeight": "bold"
+                })
+            )
+        ]
+    ),
+    style = mmt.dash.flex_style({"height": "30rem"})
+)

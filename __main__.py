@@ -30,6 +30,4 @@ if __name__ == '__main__':
                     
     except KeyboardInterrupt:
         sql_manager.disconnect()
-        #print(os.system("sudo lsof -t -i:59152"))
-        #os.system("sudo kill {}".format(int(os.system("sudo lsof -t -i:59152"))))
         os._exit(0)

@@ -1,7 +1,9 @@
 import marvmiloTools as mmt
+import time
 
 #import webserver script
 from GUI import webserver
+from GUI import debugger
 
 #init necesarry vals
 values = mmt.json.load("values.json")
@@ -14,5 +16,7 @@ def sql(command):
 
 #run webserver
 if __name__ == "__main__":
+    debug_thread = debugger.Thread(values, sql)
+    debug_thread.start()
     webserver.init_callbacks(values, sql)
     webserver.run(debug = True, port = 8050)
