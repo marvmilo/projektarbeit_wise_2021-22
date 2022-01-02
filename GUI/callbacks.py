@@ -29,6 +29,34 @@ def location_callback(path, values):
 
 #change control button
 def control_interact(n_intervals, n_start, values):
+    if values.UI.sorting_done:
+        return [
+            layout.control.icon(
+                icon = "url(/assets/check_circle_outline_24dp.svg)",
+                text = "Sotieren Erfolgreich!",
+                color = "#198754"
+            ),
+            [   
+                layout.control.progress_bar(
+                    values.ball.done,
+                    values.ball.total,
+                    color = "success"
+                ),
+                html.Br(),
+                layout.control.control_button(
+                    children = "Okay",
+                    color = "success",
+                    fontsize = "2rem",
+                    id = "sorted-acknowleged-button"
+                ),
+                html.Div(
+                    children = [
+                        html.Button(id = "control-start-button")
+                    ],
+                    style = {"display": "none"}
+                )
+            ]
+        ]
     if n_start or values.robot.movementclear:
         values.robot.movementclear = True
         return [
@@ -38,19 +66,10 @@ def control_interact(n_intervals, n_start, values):
                 color = "#198754"
             ),
             [   
-                dbc.Label("Fortschritt:"),
-                dbc.Progress(
-                    "50%",
-                    value = 50,
-                    striped = True,
-                    animated = True,
-                    style = {
-                        "height": "2rem",
-                        "fontWeight": "bold",
-                        "fontSize": "1.5rem"
-                    }
+                layout.control.progress_bar(
+                    values.ball.done,
+                    values.ball.total
                 ),
-                dbc.FormText("9/18", color = "#aaaaaa"),
                 html.Br(),
                 layout.control.control_button(
                     children = "Sotieren Stoppen!",

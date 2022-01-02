@@ -104,6 +104,31 @@ def color_select(id, value, options = None):
             )
         ]
     )
+    
+def progress_bar(done, total, color = None):
+    try:
+        percentage = int(done/total*100)
+    except ZeroDivisionError:
+        percentage = 0
+        
+    return html.Div(
+        [
+            dbc.Label("Fortschritt:"),
+            dbc.Progress(
+                f"{percentage}%",
+                value = percentage,
+                color = color,
+                striped = True,
+                animated = True,
+                style = {
+                    "height": "2rem",
+                    "fontWeight": "bold",
+                    "fontSize": "1.5rem"
+                }
+            ),
+            dbc.FormText(f"{done}/{total}", color = "#aaaaaa"),
+        ]
+    )
   
 
 #control content

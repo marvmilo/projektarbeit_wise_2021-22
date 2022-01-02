@@ -16,7 +16,9 @@
         "x": 0,
         "y": 0,
         "z_standard": 0,
-        "prev_ball_placed": true
+        "prev_ball_placed": true,
+        "total": 0,
+        "done": 0
     },
     "colors": {
         "red": {
@@ -31,5 +33,8 @@
             "container_num": 300,
             "sorted": 0
         }
+    },
+    "UI": {
+        "sorting_done": false
     }
 }
