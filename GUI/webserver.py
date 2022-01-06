@@ -43,10 +43,11 @@ def init_callbacks(values, sql):
         [Output("control-icon-div", "children"),
          Output("control-interact-div", "children")],
         [Input("control-interval", "n_intervals"),
-         Input("control-start-button", "n_clicks")]
+         Input("control-start-button", "n_clicks"),
+         Input("sorted-acknowleged-button", "n_clicks")]
     )
-    def c1(n_intervals, n_start):
-        return callbacks.control_interact(n_intervals, n_start, values)
+    def c1(n_intervals, n_start, n_ack):
+        return callbacks.control_interact(n_intervals, n_start, n_ack, values)
     
     #control containers color callbacks
     @app.callback(
@@ -112,6 +113,71 @@ def init_callbacks(values, sql):
     )
     def c8(n_intervals, style1, style2, style3):
         return callbacks.control_container_color_update(n_intervals, values, style1, style2, style3)
+    
+    #reseting server callback
+    @app.callback(
+        [Output("control-reset-button-div", "children")],
+        [Input("control-reset-button-1", "n_clicks"),
+         Input("control-reset-button-2", "n_clicks")]
+    )
+    def c9(reset1, reset2):
+        return callbacks.control_reset(reset1, reset2)
+    
+    #for updating progressbars on monitoring
+    @app.callback(
+        [Output("monitoring-tablet-progress", "children"),
+         Output("monitoring-container1-progress", "children"),
+         Output("monitoring-container2-progress", "children"),
+         Output("monitoring-container3-progress", "children")],
+        [Input("monitoring-interval", "n_intervals")]
+    )
+    def c10(n_intervals):
+        return callbacks.monitoring_progress(n_intervals, values)
+    
+    #disabling input while robot is running
+    @app.callback(
+        [Output("container-1-select", "disabled"),
+         Output("container-2-select", "disabled"),
+         Output("container-3-select", "disabled"),
+         Output("control-reset-button-1", "disabled")],
+        [Input("control-interval", "n_intervals")]
+    )
+    def c11(n_intervals):
+        return callbacks.control_disable_input(n_intervals, values)
+    
+    #stop roboter button
+    @app.callback(
+        [Output("dummy", "children")],
+        [Input("control-stop-button", "n_clicks")]
+    )
+    def c12(n_stop):
+        return callbacks.control_stop_roboter(n_stop, values)
+    
+    #hide robot not running on monitoring
+    @app.callback(
+        [Output("monitoring-robot-not-running-div", "style"),
+         Output("monitoring-current-ball-div", "style")],
+        [Input("monitoring-interval", "n_intervals")]
+    )
+    def c13(n_intervals):
+        return callbacks.hide_robot_not_running(n_intervals, values)
+    
+    #update current ball on monitoring
+    @app.callback(
+        [Output("monitoring-current-ball-div", "children")],
+        [Input("monitoring-interval", "n_intervals")]
+    )
+    def c14(n_intervals):
+        return callbacks.update_current_ball(n_intervals, values)
+
+    #update picture at monitoring
+    @app.callback(
+        [Output("monitoring-picture", "children"),
+         Output("monitoring-picture", "style")],
+        [Input("monitoring-interval", "n_intervals")]
+    )
+    def c15(n_intervals):
+        return callbacks.monitoring_update_picture(n_intervals, values)
     
 #run web application
 def run(debug = False, port = 80):

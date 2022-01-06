@@ -1,7 +1,10 @@
 from dash.exceptions import PreventUpdate
 import time
 from dash import html
+from dash.html.Pre import Pre
 import dash_bootstrap_components as dbc
+import os
+import sys
 
 #import other Scripts
 from . import layout
@@ -19,16 +22,45 @@ def location_callback(path, values):
     page_reload_colors_ts = time.time()
     if path == "/control":
         return layout.control.content(values)
-    elif path == "/containers":
-        return layout.containers.content(values)
-    elif path == "/history":
-        return layout.history.content(values)
+    elif path == "/monitoring":
+        return layout.monitoring.content(values)
     elif path == "/":
         return layout.home.content(values)
     return layout.not_found
 
 #change control button
-def control_interact(n_intervals, n_start, values):
+def control_interact(n_intervals, n_start, n_ack, values):
+    if n_ack:
+        values.UI.sorting_done = False
+        values.UI.sorting_stopped = False
+    if values.UI.sorting_stopped:
+        return [
+            layout.control.icon(
+                icon = "url(/assets/highlight_off_24dp.svg)",
+                text = "Sotieren abgebrochen!",
+                color = "#dc3545"
+            ),
+            [   
+                layout.control.progress_bar(
+                    values.ball.done,
+                    values.ball.to_collect,
+                    color = "danger"
+                ),
+                html.Br(),
+                layout.control.control_button(
+                    children = "Neuer Versuch!",
+                    color = "danger",
+                    fontsize = "2rem",
+                    id = "sorted-acknowleged-button"
+                ),
+                html.Div(
+                    children = [
+                        html.Button(id = "control-start-button")
+                    ],
+                    style = {"display": "none"}
+                )
+            ]
+        ]
     if values.UI.sorting_done:
         return [
             layout.control.icon(
@@ -39,7 +71,7 @@ def control_interact(n_intervals, n_start, values):
             [   
                 layout.control.progress_bar(
                     values.ball.done,
-                    values.ball.total,
+                    values.ball.to_collect,
                     color = "success"
                 ),
                 html.Br(),
@@ -68,14 +100,21 @@ def control_interact(n_intervals, n_start, values):
             [   
                 layout.control.progress_bar(
                     values.ball.done,
-                    values.ball.total
+                    values.ball.to_collect,
                 ),
                 html.Br(),
                 layout.control.control_button(
                     children = "Sotieren Stoppen!",
                     color = "danger",
                     fontsize = "2rem",
-                    id = "control-start-button"
+                    id = "control-stop-button"
+                ),
+                html.Div(
+                    children = [
+                        html.Button(id = "sorted-acknowleged-button"),
+                        html.Button(id = "control-start-button")
+                    ],
+                    style = {"display": "none"}
                 )
             ]
         ]
@@ -87,12 +126,21 @@ def control_interact(n_intervals, n_start, values):
                     text = "Roboter Ready",
                     color = "#ffffff"
                 ),
-                layout.control.control_button(
-                    children = "Sotieren Starten!",
-                    color = "success",
-                    fontsize = "2rem",
-                    id = "control-start-button"
-                )
+                [
+                    layout.control.control_button(
+                        children = "Sotieren Starten!",
+                        color = "success",
+                        fontsize = "2rem",
+                        id = "control-start-button"
+                    ),
+                    html.Div(
+                        children = [
+                            html.Button(id = "sorted-acknowleged-button"),
+                            html.Button(id = "control-reset-button-2")
+                        ],
+                        style = {"display": "none"}
+                    )
+                ]
             ]
     except AttributeError:
         pass
@@ -214,3 +262,83 @@ def control_container_color_update(n_intervals, values, style1, style2, style3):
         if time.time() - old_colors_ts > 2:
             old_colors = new_colors
         raise PreventUpdate
+    
+#for resetting server
+def control_reset(reset1, reset2):
+    if reset1 or reset2:
+        print("RESET SERVICE")
+    return [layout.control.reset_button()]
+
+#for updating progress bars on monitoring
+def monitoring_progress(n_intervals, values):
+    color_dict = layout.monitoring.get_color_dict(values)
+    return [
+        layout.monitoring.progress_level(
+            bars = color_dict.tablet.bars,
+            current = color_dict.tablet.remaining,
+            total = color_dict.tablet.total
+        ),
+        layout.monitoring.progress_level(
+            bars = [color_dict.container1.bar],
+            current = color_dict.container1.bar.done,
+            total = color_dict.container1.total,
+        ),
+        layout.monitoring.progress_level(
+            bars = [color_dict.container2.bar],
+            current = color_dict.container2.bar.done,
+            total = color_dict.container2.total,
+        ),
+        layout.monitoring.progress_level(
+            bars = [color_dict.container3.bar],
+            current = color_dict.container3.bar.done,
+            total = color_dict.container3.total,
+        )
+    ]
+
+#for disabling input while running robot in control
+def control_disable_input(n_intervals, values):
+    if values.robot.movementclear or values.UI.sorting_done:
+        return [True, True, True, True]
+    else:
+        return [False, False, False, False]
+    
+#for stopping roboter while sorting
+def control_stop_roboter(n_stop, values):
+    if n_stop:
+        values.robot.movementclear = False
+        values.UI.sorting_stopped = True
+    raise PreventUpdate
+
+#for hiding robot not running div
+def hide_robot_not_running(n_intervals, values):
+    if values.robot.movementclear:
+        return [{"display": "none"}, None]
+    else:
+        return [None, {"display": "none"}]
+    
+#for updating current ball
+def update_current_ball(n_intervals, values):
+    if values.ball.color:
+        return [layout.monitoring.current_ball(
+            color = values.ball.color,
+            x = values.ball.x,
+            y = values.ball.y
+        )]
+    raise PreventUpdate
+
+#for updating monitoring picutre
+def monitoring_update_picture(n_intervals, values):
+    if values.robot.movementclear:
+        return [
+            [], 
+            layout.monitoring.picture_style({
+                "backgroundImage": "url(/assets/location_image.jpg)",
+                "backgroundSize": "cover",
+                "aspect-ratio": "20 / 14"
+            })
+        ]
+    else:
+        return [
+            layout.monitoring.robot_not_running(button_color = "primary"),
+            layout.monitoring.picture_style({"height": "20rem"})
+        ]

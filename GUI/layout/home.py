@@ -75,8 +75,7 @@ def content(values):
             dbc.Row(
                 children = [
                     button_col("Control", "/control"),
-                    button_col("Containers", "/containers"),
-                    button_col("History", "/history"),
+                    button_col("Monitoring", "/monitoring"),
                 ],
                 justify = "center"
             )

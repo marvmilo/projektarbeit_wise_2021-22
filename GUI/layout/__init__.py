@@ -6,8 +6,7 @@ import marvmiloTools as mmt
 #import other page contents
 from . import home
 from . import control
-from . import containers
-from . import history
+from . import monitoring
 
 #main structure of page
 def structure(title):
@@ -31,6 +30,7 @@ def structure(title):
             html.Div(
                 children = [
                     dcc.Interval(id = "control-interval", disabled = True),
+                    dcc.Interval(id = "monitoring-interval", disabled = True),
                     html.Div(id = "control-icon-div"),
                     html.Div(id = "container-1-icon-div"),
                     html.Div(id = "container-2-icon-div"),
@@ -39,10 +39,22 @@ def structure(title):
                     html.Div(id = "control-container-2-color"),
                     html.Div(id = "control-container-3-color"),
                     html.Div(id = "control-interact-div"),
+                    html.Div(id = "control-reset-button-div"),
+                    html.Div(id = "monitoring-tablet-progress"),
+                    html.Div(id = "monitoring-container1-progress"),
+                    html.Div(id = "monitoring-container2-progress"),
+                    html.Div(id = "monitoring-container3-progress"),
+                    html.Div(id = "monitoring-robot-not-running-div"),
+                    html.Div(id = "monitoring-current-ball-div"),
+                    html.Div(id = "monitoring-picture"),
                     dbc.Select(id = "container-1-select"),
                     dbc.Select(id = "container-2-select"),
                     dbc.Select(id = "container-3-select"),
                     dbc.Button(id = "control-start-button"),
+                    dbc.Button(id = "sorted-acknowleged-button"),
+                    dbc.Button(id = "control-reset-button-1"),
+                    dbc.Button(id = "control-reset-button-2"),
+                    dbc.Button(id = "control-stop-button"),
                     html.Div(id = "dummy")
                 ],
                 style = {"display": "none"}
@@ -71,12 +83,8 @@ def navbar(title):
                 href = "/control"
             ),
             mmt.dash.nav.item.href(
-                "Containers",
-                href = "/containers"
-            ),
-            mmt.dash.nav.item.href(
-                "History",
-                href = "/history"
+                "Monitoring",
+                href = "/monitoring"
             ),
             mmt.dash.nav.item.href(
                 "Github",

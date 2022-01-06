@@ -81,7 +81,7 @@ def container_icon(container_number, icon, color):
     )
 
 #color radios for container
-def color_select(id, value, options = None):
+def color_select(id, value, options = None, disabled = False):
     if not options:
         options = [
             {"label": "Rot", "value": "red"},
@@ -98,7 +98,8 @@ def color_select(id, value, options = None):
                     dbc.Select(
                         id = f"{id}-select",
                         options = options,
-                        value = value
+                        value = value,
+                        disabled = disabled
                     )
                 ]
             )
@@ -130,6 +131,18 @@ def progress_bar(done, total, color = None):
         ]
     )
   
+#for displaying reset button
+def reset_button():
+    return dbc.Button(
+        "Reset Server",
+        id = "control-reset-button-1",
+        style = {
+            "fontWeight": "bold",
+            "fontSize": "1.5rem",
+            "height": "5rem",
+            "width": "12.5rem",
+        }
+    )
 
 #control content
 def content(values):
@@ -157,6 +170,29 @@ def content(values):
             container_hex_colors[color] = "#ffc107"
             container_icons[color] = "url(/assets/archive_yellow_24dp.svg)"
     
+    select_options = []
+    for color in container_colors.values():
+        options = list(set([c for c in ["red", "green", "yellow"] if not c in container_colors.values()] + [color, "none"]))
+        options_list = []
+        for c in options:
+            if c == "red":
+                label = "Rot"
+            elif c == "green":
+                label = "Grün"
+            elif c == "yellow":
+                label = "Gelb"
+            else:
+                label = "Keine"
+            options_list.append({
+                "label": label,
+                "value": c   
+            })
+        select_options.append(options_list)
+            
+    if values.robot.movementclear or values.UI.sorting_done:
+        disabled = True
+    else:
+        disabled = False
     
     #content
     return html.Div(
@@ -194,7 +230,9 @@ def content(values):
                             ),
                             color_select(
                                 id = "container-1",
-                                value = container_colors["1"]
+                                value = container_colors["1"],
+                                disabled = disabled,
+                                options = select_options[0]
                             )
                         ]
                     ),
@@ -210,7 +248,9 @@ def content(values):
                             ),
                             color_select(
                                 id = "container-2",
-                                value = container_colors["2"]
+                                value = container_colors["2"],
+                                disabled = disabled,
+                                options = select_options[1]
                             )
                         ]
                     ),
@@ -226,7 +266,9 @@ def content(values):
                             ),
                             color_select(
                                 id = "container-3",
-                                value = container_colors["3"]
+                                value = container_colors["3"],
+                                disabled = disabled,
+                                options = select_options[2]
                             )
                         ]
                     ),
@@ -242,15 +284,8 @@ def content(values):
             ),
             html.Br(),
             html.Div(
-                dbc.Button(
-                    "Reset Server",
-                    style = {
-                        "fontWeight": "bold",
-                        "fontSize": "1.5rem",
-                        "height": "5rem",
-                        "width": "12.5rem",
-                    }
-                ),
+                reset_button(),
+                id = "control-reset-button-div",
                 style = mmt.dash.flex_style()
             ),
             dcc.Interval(id = "control-interval")
