@@ -13,6 +13,7 @@ class TCP_Server:
 
     def server_process_function(self, pipe, values):
         def write_serverstatusfile(data=""):
+            values.server.status = data
             with open("robot/server_statusfile.txt", "w") as dok:
                 dok.write(data)
             path = os.getcwd()+"/robot/server_statusfile.txt"

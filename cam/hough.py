@@ -1,3 +1,4 @@
+from re import A
 import cv2
 import numpy as np
 
@@ -19,10 +20,63 @@ def transformation(filename):
                                param1=50, param2=12,
                                minRadius=28, maxRadius=30)
     #print(circles)
-    return circles
+    try:
+        total = len(circles[0])
+    except TypeError:
+        total = 0
+    
+    return circles, total
+
+#getting amount of balls to collect
+def balls_to_collect(circles, filename, values):
+    amount_dict = {"red": 0, "green": 0, "yellow": 0}
+    
+    for circle in circles[0]:
+        src = cv2.imread(cv2.samples.findFile(filename), cv2.IMREAD_COLOR)
+        # Check if image is loaded fine
+        if src is None:
+            print ('Error opening image!')
+            return -1
+        
+        src = src[147:624, 190:881]
+        
+        x, y, r = circle.astype(np.int32)
+        roi = src[y - r: y + r, x - r: x + r]
+        
+        # generate mask
+        width, height = roi.shape[:2]
+        mask = np.zeros((width, height, 3), roi.dtype)
+        mask = cv2.circle(mask, (int(width / 2), int(height / 2)), r, (255, 255, 255), -1)
+        dst = cv2.bitwise_and(roi, mask)
+        
+        # filter black color and fetch color values
+        data = []
+        for i in range(3):
+            channel = dst[:, :, i]
+            indices = np.where(channel != 0)[0]
+            color = np.mean(channel[indices])
+            data.append(int(color))
+
+        # opencv images are in bgr format
+        b,g,r = data
+        
+        if r > 100 and g > 100:
+            color_string = "yellow"
+        elif g > 100:
+            color_string = "green"
+        elif r > 100:
+            color_string = "red"
+        else:
+            color_string = None
+        
+        if color_string and values.colors[color_string].container_num:
+            amount_dict[color_string] += 1
+            
+    return sum(amount_dict.values()), amount_dict["red"], amount_dict["green"], amount_dict["yellow"]
+        
 
 #get cordinates from circles
-def cordinates(circles, filename):
+def cordinates(circles, filename, values):
     for circle in circles[0]:
         src = cv2.imread(cv2.samples.findFile(filename), cv2.IMREAD_COLOR)
         # Check if image is loaded fine
@@ -85,7 +139,7 @@ def cordinates(circles, filename):
         pos_mm_x = x_mm_total * (pos_px_x / x_px_total)
         pos_mm_y = y_mm_total * (pos_px_y / y_px_total)
         
-        if color_string:
+        if color_string and values.colors[color_string].container_num:
             return int(pos_mm_x), int(pos_mm_y), color_string
     return None, None, None
 

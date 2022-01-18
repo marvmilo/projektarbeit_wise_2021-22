@@ -1,3 +1,4 @@
+from re import T
 import threading
 import time
 import os
@@ -8,14 +9,18 @@ from . import hough
 
 #files
 image = "./cam/image.jpg"
-location_image = "./cam/location_image.jpg"
+location_image = "./assets/location_image.jpg"
 
 #for stopping balls detections
 def stop(values):
-    values.movementclear = False
+    values.robot.movementclear = False
+    values.UI.sorting_done = True
     values.ball.x = 0
     values.ball.y = 0
     values.ball.color = None
+    values.UI.ball.x = 0
+    values.UI.ball.y = 0
+    values.UI.ball.color = None
 
 #main function of script
 def Main(values, sql):
@@ -27,17 +32,27 @@ def Main(values, sql):
             
             if not values.robot.cameraarea:
                 #get circles through hought transformation
-                circles = hough.transformation(image)
+                circles, total = hough.transformation(image)
                 
-                if circles is not None:
-                        x, y, color = hough.cordinates(circles, image)
-                        if color == None:
-                            stop(values)
-                        hough.save_location_image(circles, image, location_image)
-                        print(x, y , color)
-                        values.ball.x = x
-                        values.ball.y = y
-                        values.ball.color = color
+                #get coardinates of circle
+                if circles is not None:#set ball values
+                    values.ball.total = total + values.ball.done
+                    c, r, g, y = hough.balls_to_collect(circles, image, values)
+                    values.ball.to_collect = c + values.ball.done
+                    values.colors.red.total = r + values.colors.red.sorted
+                    values.colors.green.total = g + values.colors.green.sorted
+                    values.colors.yellow.total = y + values.colors.yellow.sorted
+                    
+                    x, y, color = hough.cordinates(circles, image, values)
+                    if color == None:
+                        stop(values)
+                    hough.save_location_image(circles, image, location_image)
+                    values.ball.x = x
+                    values.ball.y = y
+                    values.ball.color = color
+                    values.UI.ball.x = x
+                    values.UI.ball.y = y
+                    values.UI.ball.color = color
                     
                 else:
                     stop(values)

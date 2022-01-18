@@ -22,6 +22,7 @@ def Main(values, sql):
         for x in values["colors"].keys():
             if values["colors"][x]["container_num"] == c_num:
                 values["colors"][x]["sorted"] += 1
+        values.ball.done += 1
         print("Counter in Container {:5} increased by 1".format(c_num))
     
     def sum_balls_sorted():
@@ -66,10 +67,10 @@ def Main(values, sql):
                 server.send_data(xml.create_xml())
                 values.ball.prev_ball_placed = False
         
-            if values["robot"]["movementclear"] != prev_movementclear:
-                xml.set_movementclear(values["robot"]["movementclear"])
-                prev_movementclear = values["robot"]["movementclear"]
-                server.send_data(xml.create_xml())
+            # if values["robot"]["movementclear"] != prev_movementclear:
+            #     xml.set_movementclear(values["robot"]["movementclear"])
+            #     prev_movementclear = values["robot"]["movementclear"]
+            #     server.send_data(xml.create_xml())
 
 
 #main thread of script

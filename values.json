@@ -2,12 +2,13 @@
     "server": {
         "stop": 0,
         "send_command": null,
-        "connection_status": false
+        "connection_status": false,
+        "status": null
     },
     "robot": {
         "movementstatus": null,
         "cameraarea": false,
-        "movementclear": true,
+        "movementclear": false,
         "xml": null
     },
     "ball": {
@@ -15,22 +16,35 @@
         "x": 0,
         "y": 0,
         "z_standard": 0,
-        "prev_ball_placed": true
+        "prev_ball_placed": true,
+        "to_collect": 0,
+        "total": 0,
+        "done": 0
     },
     "colors": {
         "red": {
             "container_num": 100,
-            "sorted": 0
+            "sorted": 0,
+            "total": 0
         },
         "green": {
             "container_num": 200,
-            "sorted": 0
+            "sorted": 0,
+            "total": 0
         },
         "yellow": {
             "container_num": 300,
-            "sorted": 0
+            "sorted": 0,
+            "total": 0
         }
     },
-    "camera": {
+    "UI": {
+        "sorting_done": false,
+        "sorting_stopped": false,
+        "ball": {
+            "color": null,
+            "x": 0,
+            "y": 0
+        }
     }
 }
