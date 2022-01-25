@@ -1,0 +1,12 @@
+[Unit]
+Description=Projektarbeit 5: Sotierroboter
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/projektarbeit
+ExecStart=/usr/bin/python3 /home/pi/projektarbeit/__main__.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

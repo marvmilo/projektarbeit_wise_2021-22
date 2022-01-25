@@ -1,4 +1,5 @@
 import dash
+import dash_auth
 from dash import html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
@@ -19,6 +20,7 @@ app = dash.Dash(
     update_title = False
 )
 app.layout = layout.structure(settings.name)
+auth = dash_auth.BasicAuth(app, mmt.dictionary.toDict(settings.creds))
 
 #for init callbacks
 def init_callbacks(values, sql):
@@ -182,5 +184,6 @@ def run(debug = False, port = 80):
     app.run_server(
         debug = debug, 
         host = "0.0.0.0",
-        port = port
+        port = port,
+        #ssl_context='adhoc'
     )

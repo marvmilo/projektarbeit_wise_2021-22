@@ -276,7 +276,7 @@ def control_container_color_update(n_intervals, values, style1, style2, style3):
 #for resetting server
 def control_reset(reset1, reset2):
     if reset1 or reset2:
-        print("RESET SERVICE")
+        os.system("sudo systemctl restart projektarbeit.service")
     return [layout.control.reset_button()]
 
 #for updating progress bars on monitoring
@@ -340,11 +340,12 @@ def update_current_ball(n_intervals, values):
 #for updating monitoring picutre
 def monitoring_update_picture(n_intervals, values):
     if values.robot.movementclear:
-        print("PICTURE")
+        #get image
+        image = [p for p in os.listdir("./assets") if p.startswith("locationimage")][0]
         return [
             [], 
             layout.monitoring.picture_style({
-                "backgroundImage": "url(/assets/location_image.jpg)",
+                "backgroundImage": f"url(/assets/{image})",
                 "backgroundSize": "cover",
                 "aspect-ratio": "20 / 14"
             })

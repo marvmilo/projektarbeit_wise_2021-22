@@ -81,3 +81,5 @@ class RobotData:
                             pass
         #print(ret_dict)
         return ret_dict
+    def get_fun_move_xml(self):
+	    return "<recv><robot><movementclear>True</movementclear></robot><btp><position X=\"0\" Y=\"0\" Z=\"0\" A=\"0\" B=\"0\" C=\"0\"/><containernum>400</containernum></btp></recv>"

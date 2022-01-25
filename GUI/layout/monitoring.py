@@ -107,15 +107,19 @@ def progress_level(bars, current, total, total_sum = False):
     )
     
 #for displaing current ball
-def current_ball(color = "...", x = "...", y = "..."):
+def current_ball(color = None, x = "...", y = "..."):
     if color == "red":
         hex_color = "#dc3545"
+        text_color = "Rot"
     elif color == "green":
         hex_color = "#198754"
+        text_color = "Grün"
     elif color == "yellow":
         hex_color = "#ffc107"
+        text_color = "Gelb"
     else:
         hex_color = "#444444"
+        text_color = "..."
     
     return html.Div(
         children = [
@@ -129,7 +133,7 @@ def current_ball(color = "...", x = "...", y = "..."):
             html.Div(
                 dbc.Alert(
                     html.H1(
-                        color, 
+                        text_color, 
                         style = {
                             "fontWeight": "bold",
                             "textAlign": "center"

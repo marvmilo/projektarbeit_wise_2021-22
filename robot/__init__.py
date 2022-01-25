@@ -54,7 +54,12 @@ def Main(values, sql):
         #sending data
         if server.check_serverstatus().startswith("connected"):
             if not values["server"]["send_command"] == None:
-                server.send_data(values["server"]["send_command"])
+                if values["server"]["send_command"] == "fun_move":
+                    server.send_data(xml.get_fun_move_xml())
+                else:
+                    server.send_data(values["server"]["send_command"])
+                values.server.send_command = None
+                print("values.server: "+str(values.server))
 
             if not values["ball"]["color"] == None and values.ball.prev_ball_placed:
                 #sorting a ball

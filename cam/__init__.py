@@ -9,7 +9,6 @@ from . import hough
 
 #files
 image = "./cam/image.jpg"
-location_image = "./assets/location_image.jpg"
 
 #for stopping balls detections
 def stop(values):
@@ -21,6 +20,7 @@ def stop(values):
     values.UI.ball.x = 0
     values.UI.ball.y = 0
     values.UI.ball.color = None
+    values.server.send_command = "fun_move"
 
 #main function of script
 def Main(values, sql):
@@ -43,10 +43,10 @@ def Main(values, sql):
                     values.colors.green.total = g + values.colors.green.sorted
                     values.colors.yellow.total = y + values.colors.yellow.sorted
                     
-                    x, y, color = hough.cordinates(circles, image, values)
+                    x, y, color, index = hough.cordinates(circles, image, values)
                     if color == None:
                         stop(values)
-                    hough.save_location_image(circles, image, location_image)
+                    hough.save_location_image(circles, image, index)
                     values.ball.x = x
                     values.ball.y = y
                     values.ball.color = color
@@ -56,6 +56,7 @@ def Main(values, sql):
                     
                 else:
                     stop(values)
+        time.sleep(0.25)
     
 #main thread of script
 class Thread(threading.Thread):

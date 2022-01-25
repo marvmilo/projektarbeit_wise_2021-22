@@ -1,6 +1,8 @@
 from re import A
 import cv2
 import numpy as np
+import marvmiloTools as mmt
+import os
 
 #hough transformation for finding circlles
 def transformation(filename):
@@ -77,7 +79,7 @@ def balls_to_collect(circles, filename, values):
 
 #get cordinates from circles
 def cordinates(circles, filename, values):
-    for circle in circles[0]:
+    for c, circle in enumerate(circles[0]):
         src = cv2.imread(cv2.samples.findFile(filename), cv2.IMREAD_COLOR)
         # Check if image is loaded fine
         if src is None:
@@ -85,7 +87,6 @@ def cordinates(circles, filename, values):
             return -1
         
         src = src[147:624, 190:881]
-        center = (circle[0], circle[1])
         # color = (src[int(circle[1]), int(circle[0]+10)])
 
         # color_string = None
@@ -140,11 +141,11 @@ def cordinates(circles, filename, values):
         pos_mm_y = y_mm_total * (pos_px_y / y_px_total)
         
         if color_string and values.colors[color_string].container_num:
-            return int(pos_mm_x), int(pos_mm_y), color_string
-    return None, None, None
+            return int(pos_mm_x), int(pos_mm_y), color_string, c
+    return None, None, None, 0
 
 #save image with marker at selected ball
-def save_location_image(circles, filename, location_filename):
+def save_location_image(circles, filename, ball_to_select_index):
     img = cv2.imread(cv2.samples.findFile(filename), cv2.IMREAD_COLOR)
     # Check if image is loaded fine
     if img is None:
@@ -154,12 +155,17 @@ def save_location_image(circles, filename, location_filename):
     img = img[147:624, 190:881]
     
     for i, circle in enumerate(circles[0]):
-        if not i:
+        if i == ball_to_select_index:
             #print(circle)
-            color = (0, 255, 0)
+            color = (255, 120, 75)
         else:
-            color = (255, 0, 255)
+            color = (178, 178, 178)
         center = (int(circle[0]), int(circle[1]))
         radius = int(circle[2])
         img = cv2.circle(img, center, radius, color, 3)
-    cv2.imwrite(location_filename, img)
+    
+    #create random image name to prevent caching   
+    image_path = f"./assets/locationimage_{mmt.random_ID(32)}.png"
+    for image in [p for p in os.listdir("./assets") if p.startswith("locationimage")]:
+        os.remove(f"./assets/{image}")
+    cv2.imwrite(image_path, img)
