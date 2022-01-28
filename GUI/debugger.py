@@ -31,17 +31,25 @@ def Main(values, sql):
                     color = random.choice([c for c in balls.keys() if values.colors[c].container_num and balls[c]])
                 except IndexError:
                     break
+                x = random.randrange(0, 202)
+                y = random.randrange(0, 289)
                 values.ball.color = color
-                values.ball.x = random.randrange(0, 202)
-                values.ball.y = random.randrange(0, 289)
+                values.UI.ball.color = color
+                values.ball.x = x
+                values.UI.ball.x = x
+                values.ball.y = y
+                values.UI.ball.y = y
                 time.sleep(random.uniform(3,5))
                 balls[color] -= 1
                 values.ball.done += 1
                 values.colors[color].sorted += 1
             values.robot.movementclear = False
             values.ball.color = None
+            values.UI.ball.color = None
             values.ball.x = 0
+            values.UI.ball.x = 0
             values.ball.y = 0
+            values.UI.ball.y = 0
             values.UI.sorting_done = True
         elif values.UI.sorting_done == False:
             values.ball.total = 0
