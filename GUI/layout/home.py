@@ -45,7 +45,7 @@ def content(values):
             ),
             html.Div(
                 html.H1(
-                    "Projektarbeit SoSe 2021/22",
+                    "Projektarbeit WiSe 2021/22",
                     style = {
                         "textAlign": "center",
                         "fontWeight": "bold",
