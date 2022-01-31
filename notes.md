@@ -1,7 +1,7 @@
 # Projektarbeit Wintersemester 2021/22
 Kuka Murmel Sotieroboter.
 # Aufbau:
-![aufbau](./pictures/aufbau.jpg)
+![aufbau](./pictures/aufbau.png)
 # GUI
 ### Structure:
 ![UI structure](./pictures/UIstructure.png)
