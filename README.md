@@ -11,10 +11,10 @@ Grundsätzlich besteht der Quellcode dieses Projektes aus 3 Teilen:
 - Roboter
 - Webserver GUI
 
-Dieser 3 Teile wurden mit einem jeweils in einem Thread umgesetzt, sodass diese gleichzeitig miteinander interagieren können. Allen Threads wurde eine **Values Objekt** und eine **SQL Funktion** übergeben.
+Dieser 3 Teile wurden mit einem jeweils in einem Thread umgesetzt, sodass diese gleichzeitig miteinander interagieren können. Allen Threads wird eine **Values Objekt** und eine **SQL Funktion** übergeben.
 
 ## Values:
-Values is ein abgewandeldetes dictionary in Python. Dafür wurde die Bibliothek marvmiloTools verwendet. Details: https://github.com/marvmilo/marvmiloTools. Durch dieses Objekt können alle Threads gleichzeitig die gleichen Variablen auslesen und beschreiben. Ähnliche Funktion wie eine Pipe.
+Values is ein abgewandeldetes Dictionary in Python. Dafür wurde die Bibliothek **marvmiloTools*** verwendet. Details: https://github.com/marvmilo/marvmiloTools. Durch dieses Objekt können alle Threads gleichzeitig die gleichen Variablen auslesen und beschreiben. Ähnliche Funktion wie eine Pipe.
 ## SQL Function:
 Durch die SQL Funktion können in der Datenbankdatei **database.db** standardmäßige SQLite3 Befehle ausgeführt werden. Somit kann von jedem Thread die gleiche Datenbank beschrieben und ausgewertet werden.
 
@@ -50,13 +50,13 @@ Zum Debbugen des Webservers kann das Programm **GUI_debugger.py** ausgeführt we
 [@marvmilo](https://github.com/marvmilo) 
 
 Kamera Steuerung und Auswertung.  
-Die **./cam/\_\_init\_\_.py** beschreibt dabei den Ablauf. D.h. wann ein Bild mit der Kamera aufgenommen werden soll und wann dieses Bild wie ausgewertet werden soll. Dabei werden auch Werte und Indikatoren für andere Programmteile gesetzt und geändert.
+Die **./cam/\_\_init\_\_.py** beschreibt dabei den Ablauf. D.h. wann ein Bild mit der Kamera aufgenommen werden soll und wie dieses ausgewertet wird. Dabei werden auch Werte und Indikatoren für andere Programmteile gesetzt und geändert.
 
 ## Auswertung:
 In der Datei **./cam/hough.py** befinden sich verschiedene Funktion zum Auswerten des Kamera Bildes:
 - **transformation:** Hier wird eine mathematische Hough Transformation angewandt. Der Output ist eine Liste mit Mittelpunkten der Kugeln.
-- **balls_to_collect:** Zählt anhand einer Liste mit Kugel Kordinaten, wieviele Kugeln insgesamt noch auf dem Tablet liegen und wieviele von jeder Farbe.
-- **cordinates:** Wertet solang Kordinaten der Hough Transformation aus bis ein Output entsteht, der vom Robot Script genutz werden kann, um den Kuka Roboter anzusprechen.
+- **balls_to_collect:** Zählt anhand einer Liste mit Kugel Kordinaten, wieviele Kugeln insgesamt noch auf dem Tablet liegen.
+- **cordinates:** Wertet solang Kordinaten der Hough Transformation aus, bis ein Output entsteht, der vom Robot Script genutz werden kann, um den Kuka Roboter anzusprechen.
 - **save_location_image:** Speichert ein Bild in den **./assets** Ordner, welches dann von der GUI zum Monitoring verwendet wird.
 
 # Roboter
@@ -71,6 +71,6 @@ Dependencies des Scripts für Virual Enviroment.
 Konfigurationsdatei für den systemctl Service.
 ## values.json:
 Initiale variablen des values Objekts bei start des Scriptes.
-## PROJEKT 5. Semester_V2.wsv:
+## PROJEKT 5. Semester_V2.wvs:
 Projekt Datei für Work Visual(Kuka Roboter Programmierung)
 
