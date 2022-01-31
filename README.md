@@ -11,7 +11,7 @@ Grundsätzlich besteht der Quellcode dieses Projektes aus 3 Teilen:
 - Roboter
 - Webserver GUI
 
-Dieser 3 Teile wurden mit einem jeweils in einem Thread umgesetzt, sodass sie gleichzeitig miteinander interagieren können. Allen Threads wurde eine **Values Objekt** und eine **SQL Funktion** übergeben.
+Dieser 3 Teile wurden mit einem jeweils in einem Thread umgesetzt, sodass diese gleichzeitig miteinander interagieren können. Allen Threads wurde eine **Values Objekt** und eine **SQL Funktion** übergeben.
 
 ## Values:
 Values is ein abgewandeldetes dictionary in Python. Dafür wurde die Bibliothek marvmiloTools verwendet. Details: https://github.com/marvmilo/marvmiloTools. Durch dieses Objekt können alle Threads gleichzeitig die gleichen Variablen auslesen und beschreiben. Ähnliche Funktion wie eine Pipe.
@@ -29,12 +29,12 @@ Aufbau:
 In der Datei **./GUI/webserver.py** befindet sich das Grundgerüst der der UI. Hier wird der Dash Webserver initialisiert und gestartet. Desweiteren wird hier die grundsätzliche Vernetzung der Callbacks festeglegt.
 
 ## Callbacks
-Die Datei **./GUI/callbacks.py** beinhaltet nun die genaue Definition der Callbacks. Zu jedem callback in **webserver.py** gibt es hier eine Funktion, die bestimmt was zu tun ist, wenn eine bestimmte ID auf dem Webserver getriggert wird.
+Die Datei **./GUI/callbacks.py** beinhaltet dann die genaue Definition der Callbacks. Zu jedem Callback in **webserver.py** gibt es hier eine Funktion, die bestimmt was zu tun ist, wenn eine bestimmte ID auf dem Webserver getriggert wird.
 
 ## Layout
 In dem Ordner **./GUI/layout** befinden sich mehrere Dateien mit dem Aufbau des Webservers:
 - **\_\_init\_\_.py:**  
-Hier wir die grundsätzlich Seitenstruktur definiert, sowie standart Seiten(z.B. 404 Not Found). Dazu gehört zum Beispiel auch die Navbar, welche auf jeder Seite die gleiche sein sollte. Genauso ist die allgemeine Struktur des Contents der Seite festgelegt. Hier müssen zudem alle IDs der Webapplikation zu finden sein für den initialen Aufruf der Callbacks.
+Hier wir die grundsätzlich Seitenstruktur definiert, sowie standard Seiten(z.B. 404 Not Found). Dazu gehört zum Beispiel auch die Navbar, welche auf jeder Seite die gleiche sein sollte. Genauso ist die allgemeine Struktur des Contents der Seite festgelegt. Hier müssen zudem alle IDs der Webapplikation zu finden sein für den initialen Aufruf der Callbacks.
 - **home.py:**  
 Aufbau der Home Seite.
 - **control.py:**  
